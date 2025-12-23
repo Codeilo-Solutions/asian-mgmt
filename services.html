@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asia Management | Consulting Services</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&family=DIN+Alternate:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Lato', sans-serif; }
+        .font-serif-custom { font-family: 'Times New Roman', Times, serif; }
+        .font-din-numbers { font-family: 'DIN Alternate', 'Arial Narrow', sans-serif; }
+        .bg-brand { background-color: #C41E3A; }
+        .text-brand { color: #C41E3A; }
+        .border-brand { border-color: #C41E3A; }
+        
+        /* Active navbar link */
+        nav a.active { color: #C41E3A !important; }
+        
+        /* Custom scroll behavior */
+        html { scroll-behavior: smooth; }
+        
+        /* Hide mobile menu by default */
+        #mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        #mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        /* Burger Animation utility classes */
+        .burger-active-1 { transform: translateY(8px) rotate(45deg); }
+        .burger-active-2 { opacity: 0; }
+        .burger-active-3 { transform: translateY(-8px) rotate(-45deg); }
+        
+        /* Mobile responsive grid */
+        @media (max-width: 1023px) {
+            .parent {
+                display: flex !important;
+                flex-direction: column !important;
+                min-height: auto !important;
+            }
+            .div1, .div2, .div3, .div4, .reveal {
+                grid-area: unset !important;
+            }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body class="bg-white selection:bg-black selection:text-white overflow-x-hidden">
+
+    <!-- Navbar -->
+   
+ <nav id="navbar" class="fixed max-w-7xl mx-auto top-10 left-0 right-0 z-[100] transition-all duration-300 bg-white">
+        <div class=" flex items-center justify-between px-6 lg:px-12 h-20 md:h-24">
+            <a href="index.html" class="cursor-pointer group">
+                <img src="logo/logo.svg" alt="Asia Management" class="h-12 md:h-16 w-auto transition-transform group-hover:scale-105" />
+            </a>
+            
+            <div class="hidden lg:flex items-center space-x-10 text-[11px] font-bold uppercase text-gray-800 tracking-[0.15em]">
+                <a href="#" class="hover:text-black transition flex items-center group">Industries <span class="ml-1.5 text-[8px]">▼</span></a>
+                <a href="services.html" class="active hover:text-black transition flex items-center group">Services <span class="ml-1.5 text-[8px]">▼</span></a>
+                <a href="aboutus.html" class="hover:text-black transition flex items-center group">About Us <span class="ml-1.5 text-[8px]">▼</span></a>
+                <a href="#" class="hover:text-black transition">Careers</a>
+                <a href="#" class="hover:text-black transition">Insights</a>
+            </div>
+
+            <div class="flex items-center h-full">
+                <button class="hidden sm:flex bg-black text-white h-full px-8 items-center space-x-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-colors duration-300">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                    <a href="contact.html" >Contact</a>
+                </button>
+                <button id="menu-toggle" class="p-6 md:p-8 border-l border-gray-100 h-full flex items-center hover:bg-gray-50 transition-colors">
+                    <div class="w-6 flex flex-col items-end space-y-1.5">
+                        <span class="burger-line block h-0.5 bg-gray-900 w-6 transition-all duration-300"></span>
+                        <span class="burger-line block h-0.5 bg-gray-900 w-4 transition-all duration-300"></span>
+                        <span class="burger-line block h-0.5 bg-gray-900 w-5 transition-all duration-300"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Overlay Menu -->
+    <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-gradient-to-br from-white via-gray-50 to-gray-100 backdrop-blur-xl z-[99] flex flex-col overflow-hidden">
+        <!-- Close Button -->
+        <div class="flex justify-between items-center p-4 sm:p-6 flex-shrink-0">
+            <img src="/photos/logo.png" alt="Asia Management" class="h-10 sm:h-12 w-auto" />
+            <button id="menu-close" class="p-2 hover:bg-white/50 rounded-full transition-all duration-300 group">
+                <svg class="w-6 h-6 text-gray-900 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Menu Content -->
+        <div class="flex-1 flex flex-col px-6 sm:px-8 pb-6 sm:pb-10 pt-4 overflow-y-auto">
+            <!-- Navigation Links -->
+            <nav class="space-y-1 sm:space-y-2 mb-6 sm:mb-8">
+                <a href="#" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-black transition-all duration-300">
+                    <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-black group-hover:translate-x-2 transition-all duration-300">Industries</span>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+                <a href="#" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-black transition-all duration-300">
+                    <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-black group-hover:translate-x-2 transition-all duration-300">Services</span>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>    
+                <a href="#" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-black transition-all duration-300">
+                    <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-black group-hover:translate-x-2 transition-all duration-300">About Us</span>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+                <a href="#" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-black transition-all duration-300">
+                    <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-black group-hover:translate-x-2 transition-all duration-300">Careers</span>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+                <a href="#" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-black transition-all duration-300">
+                    <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-black group-hover:translate-x-2 transition-all duration-300">Insights</span>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-black group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </nav>
+            
+            <!-- Contact Button -->
+            <div class="mb-6 sm:mb-8">
+                <a href="#" class="flex items-center justify-center space-x-3 bg-black text-white px-6 sm:px-8 py-4 sm:py-5 rounded-none hover:bg-black transition-all duration-300 shadow-xl hover:shadow-2xl group">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                    </svg>
+                    <span class="text-sm font-bold uppercase tracking-[0.2em]">Contact Us</span>
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="space-y-3 sm:space-y-4 text-center">
+                <div>
+                    <p class="text-[10px] sm:text-xs uppercase tracking-widest text-gray-500 mb-1 sm:mb-2">Call Us</p>
+                    <a href="tel:+97143950403" class="text-base sm:text-lg font-semibold text-gray-900 hover:text-black transition-colors">+971 4 395 0403</a>
+                </div>
+                <div>
+                    <p class="text-[10px] sm:text-xs uppercase tracking-widest text-gray-500 mb-1 sm:mb-2">Email</p>
+                    <a href="mailto:info@asiamanagementcs.com" class="text-xs sm:text-sm text-gray-900 hover:text-black transition-colors break-words">info@asiamanagementcs.com</a>
+                </div>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="flex justify-center gap-4 sm:gap-6 mt-6 sm:mt-8 pb-4">
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white hover:bg-black text-gray-700 hover:text-white transition-all duration-300 shadow-md">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white hover:bg-black text-gray-700 hover:text-white transition-all duration-300 shadow-md">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                </a>
+                <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white hover:bg-black text-gray-700 hover:text-white transition-all duration-300 shadow-md">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.045 4.126H5.078z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative h-[60vh] md:h-[70vh] flex flex-col justify-center items-start text-white overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center grayscale brightness-[0.5] z-0"
+            style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=2000')"></div>
+        <div class="z-10 max-w-7xl mx-auto w-full px-6 lg:px-12">
+            <div class="text-start md:max-w-5xl">
+                <p class="uppercase tracking-[0.3em] text-xs md:text-sm mb-4 font-light text-gray-300">STRATEGIC FINANCIAL & ADVISORY SOLUTIONS</p>
+                <h1 class="text-4xl sm:text-5xl  font-light mb-6 leading-[1.1]">for a Changing Business Landscape</h1>
+            <div class="w-36 h-px bg-white"></div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Introduction Section -->
+    <section class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 max-w-3xl gap-12">
+                <div>
+                    <p class="text-gray-700 leading-relaxed text-lg mb-6">
+                        At Asia Management, we bring deep financial expertise, regulatory understanding, and strategic insight to help organizations thrive in today's evolving business environment.
+                    </p>
+                </div>
+                <div>
+                    <p class="text-gray-700 leading-relaxed text-lg">
+                        Our team of experienced professionals supports clients across diverse industries — providing reliable, compliant, and performance-driven solutions that matter.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audit Section -->
+    <section class="bg-gray-50 py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop" alt="Audit Services" class="w-full h-[400px] object-cover grayscale" />
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 ">Audit</h2>
+                                <div class="w-36 h-1 mb-6 bg-black"></div>
+
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Ensure accurate, transparent, and true-to-form financial reporting. Our audit services deliver independent and objective assurance for your stakeholders.
+                    </p>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Audit Expertise:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>External and Internal Audit</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Financial Audits & Risk-Based Audits</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Financial Reporting and Compliance</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Audit Committee Support</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#" class="text-[#C41E3A] gap-2 font-semibold inline-flex items-center group">
+                                                           <div class="w-16 h-px bg-red-600"></div>
+
+                        Learn More
+
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corporate Tax Section -->
+    <section class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Corporate Tax</h2>
+                                                    <div class="w-36 h-1 mb-6 bg-black"></div>
+
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Navigate corporate tax regimes with strategic planning, efficient implementation, and full compliance—our experts ensure accuracy and minimize your liability in a complex fiscal landscape.
+                    </p>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">What Our Services Include:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Corporate Tax Advisory and Planning</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Consulting & Implementation Support</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Tax Compliance & Audit Readiness</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Transfer Pricing & International Taxation</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
+                        Learn More
+                                                                                   <div class="w-16 h-px bg-red-600"></div>
+
+                    </a>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop" alt="Corporate Tax" class="w-full h-[400px] object-cover grayscale" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Process Solutions Section -->
+    <section class="bg-gray-50 py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop" alt="Business Process Solutions" class="w-full h-[400px] object-cover grayscale" />
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Business Process Solutions</h2>
+                                                    <div class="w-36 h-1 mb-6 bg-black"></div>
+
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Transform the way your organization operates. We design and implement effective business processes that enhance operational efficiency and deliver a competitive edge.
+                    </p>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Core Offerings:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Process Redesign and Optimization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Automation and Digital Transformation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Performance & Cost Management</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Change and Process Improvement</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" class="text-[#C41E3A] gap-2  hover:underline inline-flex items-center group">
+                                                                                   <div class="w-16 h-px bg-red-600"></div>
+
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Finance Transformation Section -->
+    <section class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Finance Transformation</h2>
+                                                    <div class="w-36 h-1 mb-6 bg-black"></div>
+
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Empower your finance function with innovation and technology. Our finance transformation solutions will help you leverage data-driven insights to inform better, faster, more strategic choices.
+                    </p>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">We Help You With:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Finance Operating Model Design</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Financial Planning & Analysis (FP&A)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Finance Process Digitization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Shared Services & Outsourcing</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
+                        Learn More
+                                                                                  <div class="w-16 h-px bg-red-600"></div>
+
+                    </a>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=800&h=600&fit=crop" alt="Finance Transformation" class="w-full h-[400px] object-cover grayscale" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statutory Compliance Section -->
+    <section class="bg-gray-50 py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop" alt="Statutory Compliance" class="w-full h-[400px] object-cover grayscale" />
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Statutory Compliance</h2>
+                                                    <div class="w-36 h-1 mb-6 bg-black"></div>
+
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Stay ahead of evolving regulations. Our compliance experts ensure your organization stays on top of statutory, legal, and regulatory obligations—mitigating risk and safeguarding reputation.
+                    </p>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Compliance Support Covers:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Statutory Regulatory Compliance Monitoring</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Corporate Governance & Reporting</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Licensing & Registration Facilitation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Risk & Licence Renewals</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
+                                                                                   <div class="w-16 h-px bg-red-600"></div>
+
+                        Learn More
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Strategy & Transactions Section -->
+    <section class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Strategy & Transactions</h2>
+                                                    <div class="w-36 h-1 mb-6 bg-black"></div>
+
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Unlock business growth and acquisition opportunities with smart, informed and strategic advice. Our specialists help guide you through critical strategic and deal-making decisions for the greatest value.
+                    </p>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Audit Expertise:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Mergers, Acquisitions and Divestitures</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Mergers & Acquisitions Advisory</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Business Valuation & Due Diligence</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Corporate Restructuring & Turnaround</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
+                        Learn More
+                                                                                   <div class="w-16 h-px bg-red-600"></div>
+
+                    </a>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&h=600&fit=crop" alt="Strategy & Transactions" class="w-full h-[400px] object-cover grayscale" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk, Regulatory & Forensic Section -->
+    <section class="bg-gray-50 py-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800&h=600&fit=crop" alt="Risk, Regulatory & Forensic" class="w-full h-[400px] object-cover grayscale" />
+                </div>
+                <div>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">Risk, Regulatory & Forensic</h2>
+                                                    <div class="w-36 h-1 mb-6 bg-black"></div>
+
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        Protect your business from uncertainty. Our specialists design risk frameworks, strengthen governance, and conduct forensic investigations to address fraud and misconduct.
+                    </p>
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Compliance Support Covers:</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>CAMA Accounting and Fraud Investigation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Enterprise Risk Management (ERM)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Forensic Accounting and Fraud Investigation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-black mr-2">•</span>
+                                <span>Financial Audit and Review</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
+                                                                                  <div class="w-16 h-px bg-red-600"></div>
+
+                        Learn More
+                       
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+     <section class="relative gsap-reveal">
+            <div class="max-w-7xl bg-[#c02428] py-8 px-6 md:px-12 lg:px-24 flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-white">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+                        <p class="text-sm font-light opacity-90 uppercase tracking-widest">Newsletter subscription</p>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold">What's the latest with Asia Management</h2>
+                </div>
+                <button class="flex items-center gap-3 bg-black text-white px-8 py-4 hover:bg-zinc-900 transition-all group">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 group-hover:scale-110 transition-transform"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <span class="text-sm font-semibold tracking-widest uppercase">Subscribe now</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Dark Main Footer Section -->
+        <section class="bg-[#242a3a] py-24 px-6 md:px-12 lg:px-24 md:-mt-10">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <!-- Contact Block -->
+                <div class="lg:col-span-5 flex flex-col justify-s gsap-reveal">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+                        <p class="text-gray-400 text-lg font-light">Get in touch</p>
+                    </div>
+                    <h1 class="text-4xl  font-bold mb-4 text-white leading-tight">
+                        How can we help you?
+                    </h1>
+                    <div class="flex items-center gap-5 group cursor-pointer w-4/5 lg:justify-end">
+                        <span class="text-xl font-light text-gray-300 group-hover:text-white transition-colors">Contact us</span>
+                        <div class="w-24 h-px bg-white"></div>
+                    </div>
+                </div>
+
+                <!-- Navigation Columns -->
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-12">
+                    <div class="gsap-reveal">
+                        <h3 class="text-3xl font-bold mb-8 text-white">Services</h3>
+                        <ul class="space-y-4 text-gray-400 font-light">
+                            <li class="flex items-center gap-3 group">
+                                <span class="w-1.5 h-1.5 bg-gray-500 rounded-full group-hover:bg-white transition-colors"></span>
+                                <a href="#" class="hover:text-white transition-colors text-lg">Audit</a>
+                            </li>
+                            <li class="flex items-center gap-3 group">
+                                <span class="w-1.5 h-1.5 bg-gray-500 rounded-full group-hover:bg-white transition-colors"></span>
+                                <a href="#" class="hover:text-white transition-colors text-lg">Tax</a>
+                            </li>
+                            <li class="flex items-center gap-3 group">
+                                <span class="w-1.5 h-1.5 bg-gray-500 rounded-full group-hover:bg-white transition-colors"></span>
+                                <a href="#" class="hover:text-white transition-colors text-lg">Consulting</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="gsap-reveal">
+                        <h3 class="text-3xl font-bold mb-8 text-white">Industries</h3>
+                        <ul class="space-y-4 text-gray-400 font-light">
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Banking</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Healthcare</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Life sciences</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Private equity</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Insurance</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Manufacturing</a></li>
+                        </ul>
+                    </div>
+                    <div class="gsap-reveal">
+                        <h3 class="text-3xl font-bold mb-8 text-white">Company</h3>
+                        <ul class="space-y-4 text-gray-400 font-light">
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">About us</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Locations</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Careers</a></li>
+                            <li class="flex items-center gap-3 group"><span class="w-1.5 h-1.5 bg-gray-500 rounded-full"></span><a href="#" class="hover:text-white transition-colors text-lg">Articles</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Light Locations Section -->
+        <section class="bg-white text-[#333] pt-24 pb-16 px-6 md:px-12 lg:px-24">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-24">
+                    <!-- Dubai -->
+                    <div class="gsap-reveal">
+                        <div class="flex gap-4 mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 mt-1"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <h4 class="text-xl font-medium text-gray-400 tracking-widest">DUBAI, UAE</h4>
+                        </div>
+                        <div class="pl-10 space-y-1 text-gray-500 text-sm leading-relaxed font-light">
+                            <p class="mb-2">210 Red Avenue Building Al Garhoud, Dubai</p>
+                            <p>T: +971 4 395 0403</p>
+                            <p>E: info@asiamanagementcs.com</p>
+                        </div>
+                        <div class="mt-10 h-[1px] w-full bg-gray-200"></div>
+                    </div>
+                    <!-- India -->
+                    <div class="gsap-reveal">
+                        <div class="flex gap-4 mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 mt-1"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <h4 class="text-xl font-medium text-gray-400 tracking-widest">INDIA</h4>
+                        </div>
+                        <div class="pl-10 space-y-1 text-gray-500 text-sm leading-relaxed font-light">
+                            <p class="mb-2">210 Red Avenue Building Al Garhoud, Dubai</p>
+                            <p>T: +971 4 395 0403</p>
+                            <p>E: info@asiamanagementcs.com</p>
+                        </div>
+                        <div class="mt-10 h-[1px] w-full bg-gray-200"></div>
+                    </div>
+                    <!-- South Africa -->
+                    <div class="gsap-reveal">
+                        <div class="flex gap-4 mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 mt-1"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <h4 class="text-xl font-medium text-gray-400 tracking-widest">SOUTH AFRICA</h4>
+                        </div>
+                        <div class="pl-10 space-y-1 text-gray-500 text-sm leading-relaxed font-light">
+                            <p class="mb-2">210 Red Avenue Building Al Garhoud, Dubai</p>
+                            <p>T: +971 4 395 0403</p>
+                            <p>E: info@asiamanagementcs.com</p>
+                        </div>
+                        <div class="mt-10 h-[1px] w-full bg-gray-200"></div>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <div class="pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-sm text-gray-400">
+                    <div class="flex flex-col gap-2 items-center md:items-start">
+                        <p>Copyright © 2025. Asia Management. All Rights reserved.</p>
+                        <div class="flex gap-4 opacity-70">
+                            <a href="#" class="underline hover:text-black">Privacy Policy</a>
+                            <a href="#" class="underline hover:text-black">Terms & Conditions</a>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-8 items-center">
+                        <a href="#" class="hover:text-[#c02428] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="#" class="hover:text-[#c02428] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="#" class="hover:text-[#c02428] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                        <a href="#" class="hover:text-[#c02428] transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.045 4.126H5.078z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <script src="script.js"></script>
+</body>
+</html> 
