@@ -76,11 +76,37 @@ document.addEventListener('DOMContentLoaded', () => {
         menuClose.addEventListener('click', closeMobileMenu);
     }
 
-    // Close menu when clicking on a link
-    mobileMenuItems.forEach(item => {
-        item.addEventListener('click', () => {
-            closeMobileMenu();
+    // Mobile Dropdown Toggle
+    const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+    mobileDropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const content = toggle.nextElementSibling;
+            const isActive = toggle.classList.contains('active');
+            
+            // Close all other dropdowns
+            mobileDropdownToggles.forEach(otherToggle => {
+                if (otherToggle !== toggle) {
+                    otherToggle.classList.remove('active');
+                    otherToggle.nextElementSibling.classList.remove('active');
+                }
+            });
+            
+            // Toggle current dropdown
+            toggle.classList.toggle('active');
+            content.classList.toggle('active');
         });
+    });
+
+    // Close menu when clicking on a link (but not dropdown toggles)
+    mobileMenuItems.forEach(item => {
+        // Skip if it's a dropdown toggle button
+        if (!item.classList.contains('mobile-dropdown-toggle')) {
+            item.addEventListener('click', () => {
+                closeMobileMenu();
+            });
+        }
     });
 
     // 3. GSAP Hero Animation

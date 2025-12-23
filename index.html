@@ -43,6 +43,70 @@
         .burger-active-2 { opacity: 0; }
         .burger-active-3 { transform: translateY(-8px) rotate(-45deg); }
         
+        /* Dropdown Menu Styles */
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+            z-index: 1000;
+            min-width: 320px;
+            margin-top: 20px;
+        }
+        
+        .dropdown:hover .dropdown-menu,
+        .dropdown-menu:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        
+        .dropdown-menu::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+        }
+        
+        .dropdown-item {
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f9fafb;
+            transform: translateX(5px);
+        }
+
+        /* Mobile Dropdown Styles */
+        .mobile-dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-dropdown-content.active {
+            max-height: 600px;
+        }
+        
+        .mobile-dropdown-toggle svg {
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-dropdown-toggle.active svg {
+            transform: rotate(90deg);
+        }
+
         /* Mobile responsive grid */
         @media (max-width: 1023px) {
             .parent {
@@ -76,9 +140,71 @@
             </a>
             
             <div class="hidden lg:flex items-center space-x-10 text-[11px] font-bold uppercase text-gray-800 tracking-[0.15em]">
-                <a href="#" class="hover:text-[#C41E3A] transition flex items-center group">Industries <span class="ml-1.5 text-[8px]">▼</span></a>
-                <a href="services.html" class="hover:text-[#C41E3A] transition flex items-center group">Services <span class="ml-1.5 text-[8px]">▼</span></a>
-                <a href="aboutus.html" class="hover:text-[#C41E3A] transition flex items-center group">About Us <span class="ml-1.5 text-[8px]">▼</span></a>
+                <!-- Industries Dropdown -->
+                <div class="dropdown">
+                    <a href="#" class="hover:text-[#C41E3A] transition flex items-center group">
+                        Industries <span class="ml-1.5 text-[8px]">▼</span>
+                    </a>
+                    <div class="dropdown-menu bg-white shadow-2xl border border-gray-100">
+                        <div class="py-4">
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                CONSUMER MARKET
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                ENERGY, RESOURCES & INDUSTRIALS
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                FINANCIAL SERVICES
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                GOVERNMENT & PUBLIC SERVICES
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                LIFE SCIENCES & HEALTH CARE
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                PRIVATE EQUITY & PRINCIPAL INVESTORS
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                TECHNOLOGY, MEDIA & TELECOMMUNICATIONS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Services Dropdown -->
+                <div class="dropdown">
+                    <a href="services.html" class="hover:text-[#C41E3A] transition flex items-center group">
+                        Services <span class="ml-1.5 text-[8px]">▼</span>
+                    </a>
+                    <div class="dropdown-menu bg-white shadow-2xl border border-gray-100">
+                        <div class="py-4">
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                AUDIT
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                CORPORATE TAX
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                RISK, REGULATORY & FORENSIC
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                STRATEGY & TRANSACTION
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                STATUTORY COMPLIANCE
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                FINANCE TRANSFORMATION
+                            </a>
+                            <a href="#" class="dropdown-item block px-6 py-3 text-sm font-medium text-gray-700 hover:text-black">
+                                BUSINESS PROCESS SOLUTION
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="aboutus.html" class="hover:text-[#C41E3A] transition flex items-center group">About Us</a>
                 <a href="#" class="hover:text-[#C41E3A] transition">Careers</a>
                 <a href="#" class="hover:text-[#C41E3A] transition">Insights</a>
             </div>
@@ -115,25 +241,55 @@
         <div class="flex-1 flex flex-col px-6 sm:px-8 pb-6 sm:pb-10 pt-4 overflow-y-auto">
             <!-- Navigation Links -->
             <nav class="space-y-1 sm:space-y-2 mb-6 sm:mb-8">
-                <a href="#" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-[#C41E3A] transition-all duration-300">
-                    <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#C41E3A] group-hover:translate-x-2 transition-all duration-300">Industries</span>
-                    <svg class="w-5 h-5 text-gray-400 group-hover:text-[#C41E3A] group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-                <a href="services.html" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-[#C41E3A] transition-all duration-300">
-                    <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#C41E3A] group-hover:translate-x-2 transition-all duration-300">Services</span>
-                    <svg class="w-5 h-5 text-gray-400 group-hover:text-[#C41E3A] group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>    
+                <!-- Industries Dropdown -->
+                <div class="border-b border-gray-200">
+                    <button class="mobile-dropdown-toggle mobile-menu-item group flex items-center justify-between py-4 sm:py-5 w-full hover:border-[#C41E3A] transition-all duration-300">
+                        <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#C41E3A]">Industries</span>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-[#C41E3A] transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <div class="pl-4 pb-2 space-y-1">
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Consumer Market</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Energy, Resources & Industrials</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Financial Services</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Government & Public Services</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Life Sciences & Health Care</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Private Equity & Principal Investors</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Technology, Media & Telecommunications</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Services Dropdown -->
+                <div class="border-b border-gray-200">
+                    <button class="mobile-dropdown-toggle mobile-menu-item group flex items-center justify-between py-4 sm:py-5 w-full hover:border-[#C41E3A] transition-all duration-300">
+                        <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#C41E3A]">Services</span>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-[#C41E3A] transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                    <div class="mobile-dropdown-content">
+                        <div class="pl-4 pb-2 space-y-1">
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Audit</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Corporate Tax</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Risk, Regulatory & Forensic</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Strategy & Transaction</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Statutory Compliance</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Finance Transformation</a>
+                            <a href="#" class="block py-2 text-sm text-gray-600 hover:text-[#C41E3A] transition-colors">Business Process Solution</a>
+                        </div>
+                    </div>
+                </div>
+                
                 <a href="aboutus.html" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-[#C41E3A] transition-all duration-300">
                     <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#C41E3A] group-hover:translate-x-2 transition-all duration-300">About Us</span>
                     <svg class="w-5 h-5 text-gray-400 group-hover:text-[#C41E3A] group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </a>
-                <a href="#" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-[#C41E3A] transition-all duration-300">
+                <a href="services.html" class="mobile-menu-item group flex items-center justify-between py-4 sm:py-5 border-b border-gray-200 hover:border-[#C41E3A] transition-all duration-300">
                     <span class="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-[#C41E3A] group-hover:translate-x-2 transition-all duration-300">Careers</span>
                     <svg class="w-5 h-5 text-gray-400 group-hover:text-[#C41E3A] group-hover:translate-x-1 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
