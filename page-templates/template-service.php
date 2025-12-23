@@ -53,31 +53,31 @@ if ($query->have_posts()):
         $content = wpautop(get_the_content());
 ?>
 
-<section class="<?php echo $index % 2 == 0 ? 'bg-gray-50' : 'bg-white'; ?> py-20">
+<section class="py-20 <?php echo $index % 2 === 0 ? 'bg-gray-50' : 'bg-white'; ?>">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-            <?php if ($index % 2 == 0): ?>
-                <!-- Even: Image Left | Content Right -->
+            <?php if ($index % 2 === 0): ?>
+                <!-- EVEN: Image Left | Content Right -->
                 <div>
                     <img src="<?php echo esc_url($image); ?>" alt="<?php the_title(); ?>" class="w-full h-[400px] object-cover grayscale" />
                 </div>
                 <div>
-                    <h2 class="text-4xl font-bold text-gray-900 mb-6"><?php the_title(); ?></h2>
+                    <h2 class="text-4xl font-bold text-gray-900 "><?php the_title(); ?></h2>
                     <div class="w-36 h-1 mb-6 bg-black"></div>
-                    <p class="text-gray-600 leading-relaxed mb-6"><?php echo $content; ?></p>
+                    <div class="text-gray-600 leading-relaxed mb-6"><?php echo $content; ?></div>
 
                     <?php if ($listing_title): ?>
                         <div class="mb-6">
                             <h3 class="text-xl font-semibold text-gray-900 mb-4"><?php echo esc_html($listing_title); ?></h3>
                             <?php if ($includes): ?>
                                 <ul class="space-y-2 text-gray-700">
-                                <?php foreach ($includes as $item): ?>
-                                    <li class="flex items-start">
-                                        <span class="text-black mr-2">•</span>
-                                        <span><?php echo esc_html($item['list']); ?></span>
-                                    </li>
-                                <?php endforeach; ?>
+                                    <?php foreach ($includes as $item): ?>
+                                        <li class="flex items-start">
+                                            <span class="text-black mr-2">•</span>
+                                            <span><?php echo esc_html($item['list']); ?></span>
+                                        </li>
+                                    <?php endforeach; ?>
                                 </ul>
                             <?php endif; ?>
                         </div>
@@ -90,23 +90,23 @@ if ($query->have_posts()):
                 </div>
 
             <?php else: ?>
-                <!-- Odd: Content Left | Image Right -->
+                <!-- ODD: Content Left | Image Right -->
                 <div>
                     <h2 class="text-4xl font-bold text-gray-900 mb-6"><?php the_title(); ?></h2>
                     <div class="w-36 h-1 mb-6 bg-black"></div>
-                    <p class="text-gray-600 leading-relaxed mb-6"><?php echo $content; ?></p>
+                    <div class="text-gray-600 leading-relaxed mb-6"><?php echo $content; ?></div>
 
                     <?php if ($listing_title): ?>
                         <div class="mb-6">
                             <h3 class="text-xl font-semibold text-gray-900 mb-4"><?php echo esc_html($listing_title); ?></h3>
                             <?php if ($includes): ?>
                                 <ul class="space-y-2 text-gray-700">
-                                <?php foreach ($includes as $item): ?>
-                                    <li class="flex items-start">
-                                        <span class="text-black mr-2">•</span>
-                                        <span><?php echo esc_html($item['list']); ?></span>
-                                    </li>
-                                <?php endforeach; ?>
+                                    <?php foreach ($includes as $item): ?>
+                                        <li class="flex items-start">
+                                            <span class="text-black mr-2">•</span>
+                                            <span><?php echo esc_html($item['list']); ?></span>
+                                        </li>
+                                    <?php endforeach; ?>
                                 </ul>
                             <?php endif; ?>
                         </div>
