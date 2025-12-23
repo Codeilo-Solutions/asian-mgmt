@@ -7,13 +7,6 @@
 get_header();
 
 
-/**
- * asiamanagement_header_content hook
- *
- * @hooked asiamanagement_output_header_content()
- *
- */
-do_action('asiamanagement_header_content');
 
 ?>
 

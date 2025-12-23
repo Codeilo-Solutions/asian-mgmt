@@ -22,6 +22,13 @@
 	 * @hooked asiamanagement_add_links
 	 */
 	do_action('asiamanagement_links');
+/**
+ * asiamanagement_header_content hook
+ *
+ * @hooked asiamanagement_output_header_content()
+ *
+ */
+do_action('asiamanagement_header_content');
 
     // Keep it for plugins.
 	wp_head(); ?> 
