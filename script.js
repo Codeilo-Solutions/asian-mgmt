@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenu = document.getElementById('mobile-menu');
     const burgerLines = document.querySelectorAll('.burger-line');
     const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+    const contactOverlay = document.getElementById('contact-overlay');
+    const overlayClose = document.getElementById('overlay-close');
+    const overlayBackdrop = document.getElementById('overlay-backdrop');
 
     // 1. Navbar Scroll Effect
     window.addEventListener('scroll', () => {
@@ -64,16 +67,48 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     menuToggle.addEventListener('click', () => {
-        if (mobileMenu.classList.contains('active')) {
-            closeMobileMenu();
+        // Check if screen is desktop/laptop (>= 1024px)
+        if (window.innerWidth >= 1024) {
+            // Toggle contact overlay on desktop
+            contactOverlay.classList.toggle('active');
+            overlayBackdrop.classList.toggle('active');
+            
+            // Toggle burger animation
+            burgerLines[0].classList.toggle('burger-active-1');
+            burgerLines[1].classList.toggle('burger-active-2');
+            burgerLines[2].classList.toggle('burger-active-3');
         } else {
-            openMobileMenu();
+            // Toggle mobile menu on mobile/tablet
+            if (mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
         }
     });
 
     // Close button handler
     if (menuClose) {
         menuClose.addEventListener('click', closeMobileMenu);
+    }
+
+    // Contact Overlay Close Handlers
+    const closeContactOverlay = () => {
+        contactOverlay.classList.remove('active');
+        overlayBackdrop.classList.remove('active');
+        
+        // Reset burger animation
+        burgerLines[0].classList.remove('burger-active-1');
+        burgerLines[1].classList.remove('burger-active-2');
+        burgerLines[2].classList.remove('burger-active-3');
+    };
+
+    if (overlayClose) {
+        overlayClose.addEventListener('click', closeContactOverlay);
+    }
+
+    if (overlayBackdrop) {
+        overlayBackdrop.addEventListener('click', closeContactOverlay);
     }
 
     // Mobile Dropdown Toggle
