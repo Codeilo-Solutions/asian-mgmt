@@ -1,350 +1,39 @@
-/* npx @tailwindcss/cli -i ./css/style.css -o ./css/tw.css --watch */
+  
+        body { font-family: 'Lato', sans-serif; }
+        .font-serif-custom { font-family: 'Times New Roman', Times, serif; }
+        .font-din-numbers { font-family: 'DIN Alternate', 'Arial Narrow', sans-serif; }
+        .bg-brand { background-color: #C41E3A; }
+        .text-brand { color: #C41E3A; }
+        .border-brand { border-color: #C41E3A; }
+        
+        /* Custom scroll behavior */
+        html { scroll-behavior: smooth; }
+        
+        /* Hide mobile menu by default */
+        #mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        #mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); }
+
+        /* Burger Animation utility classes */
+        .burger-active-1 { transform: translateY(8px) rotate(45deg); }
+        .burger-active-2 { opacity: 0; }
+        .burger-active-3 { transform: translateY(-8px) rotate(-45deg); }
+        
+        /* Mobile responsive grid */
+        @media (max-width: 1023px) {
+            .parent {
+                display: flex !important;
+                flex-direction: column !important;
+                min-height: auto !important;
+            }
+            .div1, .div2, .div3, .div4, .reveal {
+                grid-area: unset !important;
+            }
+        }
 
-/* @tailwind base;
-@tailwind components; */
-@tailwind utilities;
-@import "tailwindcss";
-
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* outline: 1px solid rgb(0,0,1); */
-}
-
-:root {
-  --hading-color: #BF1E2E;
-  --text-color: #848484;
-  --black: #000;
-  --white: #fff;
-
-}
-
-@font-face {
-  font-family: lato-Regular;
-  src: url('../fonts/Lato-Regular.ttf');
-}
-
-@font-face {
-  font-family: lato-bold;
-  src: url('../fonts/Lato-Bold.ttf');
-}
-
-@font-face {
-  font-family: lato-light;
-  src: url('../fonts/Lato-Light.ttf');
-}
-
-
-@font-face {
-  font-family: acta;
-  src: url('../fonts/Acta\ Display\ Book.ttf');
-}
-
-@font-face {
-  font-family: din-alternate;
-  src: url('../fonts/DINAlternate-Bold.woff');
-}
-
-
-.lato-light {
-  font-family: lato-light;
-}
-
-.latoRegular {
-  font-family: lato-Regular;
-}
-
-.acta {
-  font-family: acts-displayBook;
-}
-
-.din-alternate {
-  font-family: din-alternate;
-}
-
-
-.heroSection {
-  background-image: url('../assest/backimage/Layer\ 4.png');
-  width: 100%;
-  height: 90vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-@media (max-width: 640px) {
-
-  .heroSection {
-    height: 75vh;
-    /* reduce height for small screens */
-    background-size: cover;
-    /* avoid crop */
-    background-position: top center;
-  }
-
-  .audit {
-    height: 40vh;
-    background-size: cover;
-    background-position: top center;
-  }
-}
-
-.conbanner {
-  background-image: url('../assest/icon/Layer\ 19.png');
-  width: 100%;
-  height: 90vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-.nav-link {
-  position: relative;
-  padding-bottom: 4px;
-}
-
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--hading-color);
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-.bars {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  transition: all 0.3s ease;
-}
-
-
-.bars1,
-.bars2,
-.bars3 {
-  width: 45px;
-  height: 2px;
-  background-color: var(--text-color);
-  border-radius: 8px;
-  transition: all 0.35s ease;
-}
-
-/* Middle bar hides */
-.close .bars2 {
-  opacity: 0;
-  transform: translateX(-10px);
-}
-
-/* Top bar rotates */
-.close .bars1 {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-/* Bottom bar rotates */
-.close .bars3 {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* home menu bar  */
-
-@keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  to {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-}
-
-.animate-slideIn {
-  animation: slideIn 0.4s ease forwards;
-}
-
-.animate-slideOut {
-  animation: slideOut 0.4s ease forwards;
-}
-
-
-/* Sticky header */
-[data-header].active {
-  position: fixed;
-  top: 0;
-  /* left: 0; */
-  width: 100%;
-  z-index: 50;
-  background: white;
-  transition: top 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Hide header when scrolling down */
-[data-header].hide {
-  top: -122px;
-  /* moves header up smoothly */
-}
-
-/* Back to top button show */
-[data-back-top-btn].active {
-  opacity: 1;
-  bottom: 30px;
-  pointer-events: auto;
-}
-
-.sevices {
-  background-image: url('../assest/mainImage/services.png');
-  width: 100%;
-  height: 80vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-.about {
-  background-image: url('../assest/mainImage/services.png');
-  width: 100%;
-  height: 80vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-.contact {
-  background-image: url('../assest/mainImage/contact.png');
-  width: 100%;
-  height: 80vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-.audit {
-  background-image: url('../assest/mainImage/audit2.png');
-  width: 100%;
-  height: 80vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-.career {
-  background-image: url('../assest/mainImage/contact.png');
-  width: 100%;
-  height: 80vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-.insight {
-  background-image: url('../assest/mainImage/audit2.png');
-  width: 100%;
-  height: 80vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-.blog {
-  background-image: url('../assest/mainImage/contact.png');
-  width: 100%;
-  height: 80vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
-@media (max-width: 640px) {}
-
-@media (max-width: 640px) {
-
-  .blog {
-    height: 40vh;
-    /* reduce height for small screens */
-    background-size: cover;
-    /* avoid crop */
-    background-position: top center;
-  }
-
-  .career {
-    height: 40vh;
-    background-size: cover;
-    background-position: top center;
-  }
-}
-
-@media (max-width: 640px) {
-
-  .insight {
-    height: 40vh;
-    /* reduce height for small screens */
-    background-size: cover;
-    /* avoid crop */
-    background-position: top center;
-  }
-
-  .audit {
-    height: 40vh;
-    background-size: cover;
-    background-position: top center;
-  }
-}
-
-@media (max-width: 640px) {
-
-  .contact {
-    height: 40vh;
-    /* reduce height for small screens */
-    background-size: cover;
-    /* avoid crop */
-    background-position: top center;
-  }
-
-  .conbanner {
-    height: 40vh;
-    /* reduce height for small screens */
-    background-size: cover;
-    /* avoid crop */
-    background-position: top center;
-  }
-
-
-
-}
-
-.owl-theme .owl-dots {
-  display: none;
-}

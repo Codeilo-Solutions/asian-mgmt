@@ -27,7 +27,7 @@ function dignity_scripts() {
     // Tailwind and custom CSS
     wp_enqueue_style('asiamanagement-splide-css', DK_CSS . '/splide.min.css', array(), '1.0.0', 'all');
     wp_enqueue_style('asiamanagement-main-css', DK_CSS . '/style.css', array(), '1.0.0', 'all');
-    wp_enqueue_style('asiamanagement-custom-css', DK_CSS . '/tw.css', array(), '1.0.0', 'all');
+    // wp_enqueue_style('asiamanagement-custom-css', DK_CSS . '/tw.css', array(), '1.0.0', 'all');
 
     // Owl Carousel CSS & JS
     wp_enqueue_style(

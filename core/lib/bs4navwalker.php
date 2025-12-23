@@ -1,14 +1,16 @@
 <?php
-class bs4Navwalker extends Walker_Nav_Menu {
 
-    // Start Level
+class bs4navwalker extends Walker_Nav_Menu {
+
+    // Start Level (Submenu)
     public function start_lvl(&$output, $depth = 0, $args = array()) {
         $indent = str_repeat("\t", $depth);
-
         if ($depth === 0) {
-            $output .= "\n$indent<ul class=\"absolute left-0 top-full bg-white shadow-lg rounded-xl w-64 py-3 opacity-0 translate-y-4 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 ease-out border border-gray-100\">\n";
+            // Top-level dropdown
+            $output .= "\n$indent<ul class=\"absolute left-0 top-full bg-white shadow-lg w-56 py-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-out border border-gray-200 list-none\">\n";
         } else {
-            $output .= "\n$indent<ul class=\"absolute left-full top-0 bg-white shadow-lg rounded-xl w-56 py-3 opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:pointer-events-auto transition-all duration-300 ease-out border border-gray-100\">\n";
+            // Nested dropdown
+            $output .= "\n$indent<ul class=\"absolute left-full top-0 bg-white shadow-lg w-48 py-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-out border border-gray-200 list-none\">\n";
         }
     }
 
@@ -21,21 +23,17 @@ class bs4Navwalker extends Walker_Nav_Menu {
     // Start Element
     public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
         $indent = ($depth) ? str_repeat("\t", $depth) : '';
-
         $classes = empty($item->classes) ? array() : (array)$item->classes;
         $classes[] = 'menu-item-' . $item->ID;
 
         $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args, $depth));
 
-        // Top-level li classes
-        if ($depth === 0) {
-            $class_names .= ' relative group mt-2';
-        }
-
+        if ($depth === 0) $class_names .= ' relative group list-none'; // Top-level menu item
+        else $class_names .= ' list-none'; // Submenu item
         $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
         $id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args, $depth);
         $id = $id ? ' id="' . esc_attr($id) . '"' : '';
-
+        
         $output .= $indent . '<li' . $id . $class_names . '>';
 
         // Link attributes
@@ -45,22 +43,22 @@ class bs4Navwalker extends Walker_Nav_Menu {
         $atts['rel']    = !empty($item->xfn) ? $item->xfn : '';
         $atts['href']   = !empty($item->url) ? $item->url : '';
 
-        // Classes for links
+        // Desktop Classes
         if ($depth === 0) {
-            $atts['class'] = 'nav-link latoRegular uppercase flex items-center gap-1 text-[12px] transition-all duration-300 hover:text-[--hading-color]';
+            $atts['class'] = 'hover:text-[#C41E3A] transition flex items-center group text-[11px] font-bold uppercase tracking-[0.15em]';
 
             if (in_array('menu-item-has-children', $classes)) {
-                $atts['class'] .= ' flex items-center gap-1 relative';
-                $image_url = get_template_directory_uri() . '/assets/images/arrow-down.png';
-                $item->title .= ' <img src="' . esc_url($image_url) . '" width="10" height="10" class="ml-1 transition-all duration-300 group-hover:rotate-180" alt="arrow">';
+                $atts['class'] .= ' flex items-center justify-between';
+                $item->title .= ' <span class="ml-1.5 text-[8px]">▼</span>';
             }
         } else {
-            $atts['class'] = 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded-lg transition';
+            // Dropdown submenu items
+            $atts['class'] = 'block px-4 py-2 text-sm text-gray-800 hover:text-[#C41E3A] hover:bg-gray-50 transition-all duration-300';
         }
 
-        // Special: Contact button
+        // Contact button (top-level special)
         if (strtolower($item->title) === 'contact') {
-            $atts['class'] = 'flex latoRegular items-center gap-1 px-6 lg:md:h-[82px] h-[82px] text-[12px] text-white bg-[--hading-color] shadow-md hover:shadow-lg transition-all duration-300 hover:bg-[--hading-color]/90';
+            $atts['class'] = 'flex items-center justify-center space-x-3 bg-[#C41E3A] text-white px-6 py-4 sm:px-8 sm:py-5 rounded-none hover:bg-black transition-all duration-300 shadow-xl hover:shadow-2xl group text-[11px] font-bold uppercase tracking-[0.2em]';
         }
 
         $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
@@ -88,3 +86,5 @@ class bs4Navwalker extends Walker_Nav_Menu {
     }
 }
 ?>
+
+

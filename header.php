@@ -27,6 +27,6 @@
 	wp_head(); ?> 
 </head>
 
-<body <?php echo body_class(); ?>>
+<body class="bg-white selection:bg-[#C41E3A] selection:text-white overflow-x-hidden">
 
 
