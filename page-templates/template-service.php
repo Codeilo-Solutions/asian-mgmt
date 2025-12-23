@@ -84,8 +84,9 @@ if ($query->have_posts()):
                     <?php endif; ?>
 
                     <a href="<?php the_permalink(); ?>" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
-                        <div class="w-16 h-px bg-red-600"></div>
+                       
                         Learn More
+                         <div class="w-16 h-px bg-red-600"></div>
                     </a>
                 </div>
 
