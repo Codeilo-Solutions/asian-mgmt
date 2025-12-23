@@ -289,4 +289,44 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial setup
         updateCarousel();
     }
+
+    // Career Form File Upload Handler
+    const resumeInput = document.getElementById('resume');
+    const fileNameDisplay = document.getElementById('file-name');
+    
+    if (resumeInput && fileNameDisplay) {
+        resumeInput.addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Choose File No file chosen';
+            fileNameDisplay.textContent = fileName;
+            
+            if (e.target.files[0]) {
+                fileNameDisplay.classList.remove('text-gray-500');
+                fileNameDisplay.classList.add('text-gray-900');
+            } else {
+                fileNameDisplay.classList.remove('text-gray-900');
+                fileNameDisplay.classList.add('text-gray-500');
+            }
+        });
+    }
+
+    // Career Form Submission Handler
+    const careerForm = document.getElementById('career-form');
+    
+    if (careerForm) {
+        careerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = new FormData(careerForm);
+            
+            // Show success message
+            alert('Thank you for your application! We will review your submission and get back to you soon.');
+            
+            // Reset form
+            careerForm.reset();
+            fileNameDisplay.textContent = 'Choose File No file chosen';
+            fileNameDisplay.classList.remove('text-gray-900');
+            fileNameDisplay.classList.add('text-gray-500');
+        });
+    }
 });
