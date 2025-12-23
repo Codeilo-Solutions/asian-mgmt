@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const openMobileMenu = () => {
         mobileMenu.classList.add('active');
         
+        // Hide navbar only on small devices (below lg breakpoint: 1024px)
+        if (window.innerWidth < 1024) {
+            navbar.style.opacity = '0';
+            navbar.style.pointerEvents = 'none';
+        }
+        
         // Burger Animation
         burgerLines[0].classList.toggle('burger-active-1');
         burgerLines[1].classList.toggle('burger-active-2');
@@ -44,6 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeMobileMenu = () => {
         mobileMenu.classList.remove('active');
+        
+        // Show navbar only on small devices
+        if (window.innerWidth < 1024) {
+            navbar.style.opacity = '1';
+            navbar.style.pointerEvents = 'auto';
+        }
         
         // Burger Animation Reset
         burgerLines[0].classList.remove('burger-active-1');
