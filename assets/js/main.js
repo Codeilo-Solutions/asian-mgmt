@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenu = document.getElementById('mobile-menu');
     const burgerLines = document.querySelectorAll('.burger-line');
     const mobileMenuItems = document.querySelectorAll('.mobile-menu-item');
+    const contactOverlay = document.getElementById('contact-overlay');
+    const overlayClose = document.getElementById('overlay-close');
+    const overlayBackdrop = document.getElementById('overlay-backdrop');
 
     // 1. Navbar Scroll Effect
     window.addEventListener('scroll', () => {
@@ -64,10 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     menuToggle.addEventListener('click', () => {
-        if (mobileMenu.classList.contains('active')) {
-            closeMobileMenu();
+        // Check if screen is desktop/laptop (>= 1024px)
+        if (window.innerWidth >= 1024) {
+            // Toggle contact overlay on desktop
+            contactOverlay.classList.toggle('active');
+            overlayBackdrop.classList.toggle('active');
+            
+            // Toggle burger animation
+            burgerLines[0].classList.toggle('burger-active-1');
+            burgerLines[1].classList.toggle('burger-active-2');
+            burgerLines[2].classList.toggle('burger-active-3');
         } else {
-            openMobileMenu();
+            // Toggle mobile menu on mobile/tablet
+            if (mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
         }
     });
 
@@ -76,11 +92,56 @@ document.addEventListener('DOMContentLoaded', () => {
         menuClose.addEventListener('click', closeMobileMenu);
     }
 
-    // Close menu when clicking on a link
-    mobileMenuItems.forEach(item => {
-        item.addEventListener('click', () => {
-            closeMobileMenu();
+    // Contact Overlay Close Handlers
+    const closeContactOverlay = () => {
+        contactOverlay.classList.remove('active');
+        overlayBackdrop.classList.remove('active');
+        
+        // Reset burger animation
+        burgerLines[0].classList.remove('burger-active-1');
+        burgerLines[1].classList.remove('burger-active-2');
+        burgerLines[2].classList.remove('burger-active-3');
+    };
+
+    if (overlayClose) {
+        overlayClose.addEventListener('click', closeContactOverlay);
+    }
+
+    if (overlayBackdrop) {
+        overlayBackdrop.addEventListener('click', closeContactOverlay);
+    }
+
+    // Mobile Dropdown Toggle
+    const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+    mobileDropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const content = toggle.nextElementSibling;
+            const isActive = toggle.classList.contains('active');
+            
+            // Close all other dropdowns
+            mobileDropdownToggles.forEach(otherToggle => {
+                if (otherToggle !== toggle) {
+                    otherToggle.classList.remove('active');
+                    otherToggle.nextElementSibling.classList.remove('active');
+                }
+            });
+            
+            // Toggle current dropdown
+            toggle.classList.toggle('active');
+            content.classList.toggle('active');
         });
+    });
+
+    // Close menu when clicking on a link (but not dropdown toggles)
+    mobileMenuItems.forEach(item => {
+        // Skip if it's a dropdown toggle button
+        if (!item.classList.contains('mobile-dropdown-toggle')) {
+            item.addEventListener('click', () => {
+                closeMobileMenu();
+            });
+        }
     });
 
     // 3. GSAP Hero Animation
@@ -227,5 +288,45 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Initial setup
         updateCarousel();
+    }
+
+    // Career Form File Upload Handler
+    const resumeInput = document.getElementById('resume');
+    const fileNameDisplay = document.getElementById('file-name');
+    
+    if (resumeInput && fileNameDisplay) {
+        resumeInput.addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Choose File No file chosen';
+            fileNameDisplay.textContent = fileName;
+            
+            if (e.target.files[0]) {
+                fileNameDisplay.classList.remove('text-gray-500');
+                fileNameDisplay.classList.add('text-gray-900');
+            } else {
+                fileNameDisplay.classList.remove('text-gray-900');
+                fileNameDisplay.classList.add('text-gray-500');
+            }
+        });
+    }
+
+    // Career Form Submission Handler
+    const careerForm = document.getElementById('career-form');
+    
+    if (careerForm) {
+        careerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = new FormData(careerForm);
+            
+            // Show success message
+            alert('Thank you for your application! We will review your submission and get back to you soon.');
+            
+            // Reset form
+            careerForm.reset();
+            fileNameDisplay.textContent = 'Choose File No file chosen';
+            fileNameDisplay.classList.remove('text-gray-900');
+            fileNameDisplay.classList.add('text-gray-500');
+        });
     }
 });

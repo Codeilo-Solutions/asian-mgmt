@@ -1,131 +1,80 @@
-
-   <?php
-
+<?php
 get_header();
-?>
-<div class="insight w-full" style="background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>);">
-      <?php
-
-    /**
-     * asiamanagement_header_content hook
-     *
-     * @hooked asiamanagement_output_header_content()
-     *
-     */
-    do_action( 'asiamanagement_header_content' );
-
-?>
-<?php
-
-// get_template_part('template-parts/common/banner');
-?>
-</div>
-   <div class="absolute 
-            top-40 sm:md:top-56 md:top-64 
-            left-1/2 md:left-56 
-            -translate-x-1/2 md:translate-x-0">
-
-      <div class="text-white text-center md:text-left">
-        <h1 class="acta tracking-[2px] text-[28px] sm:text-[34px] md:text-[38px]">
-          <?php the_title(); ?>
-        </h1>
-
-        <div class="mt-6">
-          <div class="w-20 mx-auto md:mx-0 relative 
-               after:content-[''] after:absolute after:w-full after:h-[2px] 
-               after:bg-white after:bottom-0 md:ml-2">
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- blog -->
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-
-    <!-- Header -->
-    <div class="mb-12">
-        <h1 class="text-[30px] sm:text-[38px] acta mb-2 text-[--hading-color]">
-            <?php the_title(); ?>
-        </h1>
-
-        <span class="text-[11px] sm:text-[12px] text-gray-400">
-            <?php echo get_the_date('F d, Y'); ?>
-        </span>
-    </div>
-
-    <!-- Blog Content -->
-    <div class="prose max-w-none text-gray-700 acta leading-relaxed">
-        <?php
-$content = get_the_content();
-$content = preg_replace('/^<p>(.*)<\/p>$/s', '$1', $content);
-echo $content
+if( have_posts() ): while( have_posts() ): the_post(); 
 ?>
 
-    </div>
-
-</div>
-
-
-  </div>
-
-  <!-- Related  -->
-
-<div class="max-w-5xl mx-auto px-4 py-16">
-
-    <div class="text-black text-center md:text-left">
-        <h1 class="acta tracking-[2px] text-[28px] sm:text-[34px] md:text-[38px]">Related</h1>
-
-        <div class="mt-6">
-            <div class="w-20 mx-auto md:mx-0 relative 
-                 after:content-[''] after:absolute after:w-full after:h-[2px] 
-                 after:bg-black after:bottom-0 md:ml-2">
-            </div>
+<!-- Hero Section -->
+<section class="relative h-[60vh] md:h-[70vh] flex flex-col justify-center items-start text-white overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center grayscale brightness-[0.5] z-0"
+        style="background-image: url('<?php echo get_the_post_thumbnail_url(get_the_ID(),'full'); ?>')"></div>
+    <div class="z-10 max-w-7xl mx-auto w-full px-6 lg:px-12">
+        <div class="text-start md:max-w-5xl">
+            <h1 class="text-4xl sm:text-5xl font-light mb-6 leading-[1.1]"><?php the_title(); ?></h1>
+            <div class="w-36 h-px bg-white"></div>
         </div>
     </div>
+</section>
 
-    <?php
-    $related = new WP_Query([
-        'post_type'      => 'post',
-        'posts_per_page' => 3,
-        'post__not_in'   => [get_the_ID()],
-    ]);
-    ?>
+<!-- Blog Content Section -->
+<section class="detail-page py-16 md:py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-6 lg:px-12">
+        <div class="blog-content">
+            <!-- Featured Image -->
+            <!-- <?php if(has_post_thumbnail()): ?>
+            <div class="mb-12">
+                <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(),'full'); ?>" 
+                     alt="<?php the_title(); ?>" 
+                     class="w-full h-auto object-cover">
+            </div> -->
+            <!-- <?php endif; ?> -->
 
-    <div class="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 flex-wrap mb-12 mt-24">
+            <!-- Article Content -->
+            <article class="prose ">
+                <?php the_content(); ?>
+            </article>
 
-        <?php while ($related->have_posts()) : $related->the_post(); ?>
-            <div class="flex-1 duration-300 overflow-hidden group">
-
-                <div class="overflow-hidden">
-                    <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(), 'medium_large'); ?>" 
-                         class="w-full h-60 object-cover transition-transform duration-500 hover:scale-105">
-                </div>
-
-                <div class="p-4 space-y-3">
-                    <h4 class="text-[14px] text-gray-500 latoRegular">
-                        <?php echo get_the_date('F d, Y'); ?>
-                    </h4>
-
-                    <a href="<?php the_permalink(); ?>">
-                        <h1 class="text-[20px] latoRegular text-gray-900 transition-colors duration-300 group-hover:text-[--hading-color]">
-                            <?php the_title(); ?>
-                        </h1>
-                    </a>
-
-                    <p class="text-gray-600 text-sm leading-relaxed lato-light">
-                        <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
-                    </p>
+            <!-- Related Articles -->
+            <?php 
+            $related = new WP_Query([
+                'post_type'      => 'post',
+                'posts_per_page' => 3,
+                'post__not_in'   => [get_the_ID()],
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+            ]);
+            if($related->have_posts()): ?>
+            <div class="related-section mt-16 pt-16 border-t border-gray-200">
+                <h3 class="text-2xl font-bold mb-8 text-gray-900">Related</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <?php while($related->have_posts()): $related->the_post(); ?>
+                        <div class="group">
+                            <div class="mb-4 overflow-hidden">
+                                <?php if(has_post_thumbnail()): ?>
+                                    <img src="<?php echo get_the_post_thumbnail_url(get_the_ID(),'medium_large'); ?>" 
+                                         alt="<?php the_title(); ?>" 
+                                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <?php else: ?>
+                                    <img src="<?php echo get_template_directory_uri(); ?>/assest/mainImage/default.png" 
+                                         alt="Default Image" 
+                                         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                                <?php endif; ?>
+                            </div>
+                            <p class="text-xs uppercase tracking-wider text-[#C41E3A] mb-2"><?php echo get_the_date('m/d/Y'); ?></p>
+                            <h4 class="text-lg font-bold mb-3 group-hover:text-[#C41E3A] transition-colors">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            </h4>
+                            <p class="text-sm text-gray-600 leading-relaxed line-clamp-2"><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
+                        </div>
+                    <?php endwhile; wp_reset_postdata(); ?>
                 </div>
             </div>
-        <?php endwhile; wp_reset_postdata(); ?>
+            <?php endif; ?>
 
+        </div>
     </div>
+</section>
 
-</div>
-
-<?php
+<?php 
+endwhile; endif;
 get_footer();
 ?>

@@ -37,11 +37,20 @@ get_header();
 
 <!-- Services Section -->
 <?php
+if(is_page('Service')){
 $args = [
-    'post_type' => 'service',
-    'posts_per_page' => -1,
-    'order' => 'ASC'
-];
+  'post_type' => 'service',
+  'posts_per_page' => -1,
+  'order' => 'ASC'
+]; }
+else
+{
+$args = [
+  'post_type' => 'industry',
+  'posts_per_page' => -1,
+  'order' => 'ASC'
+];    
+}
 $query = new WP_Query($args);
 if ($query->have_posts()):
     $index = 0;
@@ -62,36 +71,6 @@ if ($query->have_posts()):
                 <div>
                     <img src="<?php echo esc_url($image); ?>" alt="<?php the_title(); ?>" class="w-full h-[400px] object-cover grayscale" />
                 </div>
-                <div>
-                    <h2 class="text-4xl font-bold text-gray-900 "><?php the_title(); ?></h2>
-                    <div class="w-36 h-1 mb-6 bg-black"></div>
-                    <div class="text-gray-600 leading-relaxed mb-6"><?php echo $content; ?></div>
-
-                    <?php if ($listing_title): ?>
-                        <div class="mb-6">
-                            <h3 class="text-xl font-semibold text-gray-900 mb-4"><?php echo esc_html($listing_title); ?></h3>
-                            <?php if ($includes): ?>
-                                <ul class="space-y-2 text-gray-700">
-                                    <?php foreach ($includes as $item): ?>
-                                        <li class="flex items-start">
-                                            <span class="text-black mr-2">•</span>
-                                            <span><?php echo esc_html($item['list']); ?></span>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            <?php endif; ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <a href="<?php the_permalink(); ?>" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
-                       
-                        Learn More
-                         <div class="w-16 h-px bg-red-600"></div>
-                    </a>
-                </div>
-
-            <?php else: ?>
-                <!-- ODD: Content Left | Image Right -->
                 <div>
                     <h2 class="text-4xl font-bold text-gray-900 mb-6"><?php the_title(); ?></h2>
                     <div class="w-36 h-1 mb-6 bg-black"></div>
@@ -114,11 +93,42 @@ if ($query->have_posts()):
                     <?php endif; ?>
 
                     <a href="<?php the_permalink(); ?>" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
-                        <div class="w-16 h-px bg-red-600"></div>
+                       <div class="w-16 h-px bg-red-600"></div>
                         Learn More
+                         
                     </a>
                 </div>
-                <div>
+
+            <?php else: ?>
+                <!-- ODD: Content Left | Image Right -->
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6"><?php the_title(); ?></h2>
+                    <div class="w-36 h-1 mb-6 bg-black"></div>
+                    <div class="text-gray-600 leading-relaxed mb-6"><?php echo $content; ?></div>
+
+                    <?php if ($listing_title): ?>
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-4"><?php echo esc_html($listing_title); ?></h3>
+                            <?php if ($includes): ?>
+                                <ul class="space-y-2 text-gray-700">
+                                    <?php foreach ($includes as $item): ?>
+                                        <li class="flex items-start">
+                                            <span class="text-black mr-2">•</span>
+                                            <span><?php echo esc_html($item['list']); ?></span>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <a href="<?php the_permalink(); ?>" class="text-[#C41E3A] gap-2 font-semibold hover:underline inline-flex items-center group">
+                        
+                        Learn More
+                        <div class="w-16 h-px bg-red-600"></div>
+                    </a>
+                </div>
+                <div class="order-1 lg:order-2">
                     <img src="<?php echo esc_url($image); ?>" alt="<?php the_title(); ?>" class="w-full h-[400px] object-cover grayscale" />
                 </div>
             <?php endif; ?>

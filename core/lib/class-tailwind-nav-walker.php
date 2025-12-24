@@ -1,62 +1,47 @@
 <?php
-class Tailwind_Nav_Walker extends Walker_Nav_Menu {
+class Mobile_Navwalker extends Walker_Nav_Menu {
 
-    // Start Submenu (for nested items)
-    function start_lvl( &$output, $depth = 0, $args = null ) {
-        if ($depth === 0) {
-            // Wrap the submenu inside accordionContent
-            $output .= '<div class="accordionContent"><div class="overflow-hidden">';
-            $output .= '<ul class="py-2 pl-8 text-xl">';
-        } else {
-            // Normal submenu without extra divs
-            $output .= '<ul class="flex gap-4 content-center items-center">';
-        }
+    public function start_lvl(&$output, $depth = 0, $args = []) {
+        $output .= '<div class="mobile-submenu hidden pl-4 pb-3">';
     }
 
-    // End Submenu
-    function end_lvl( &$output, $depth = 0, $args = null ) {
-        $output .= '</ul>';
-        if ($depth === 0) {
-            $output .= '</div></div>'; // Close accordionContent wrapper
-        }
+    public function end_lvl(&$output, $depth = 0, $args = []) {
+        $output .= '</div>';
     }
 
-    // Start Each Menu Item
-    function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
-        $has_children = !empty($args->walker->has_children);
+    public function start_el(&$output, $item, $depth = 0, $args = [], $id = 0) {
+
+        $has_children = in_array('menu-item-has-children', $item->classes);
 
         if ($depth === 0) {
+
+            $output .= '<div class="border-b">';
+
+            $output .= '<div class="flex justify-between items-center py-4">';
+
+            $output .= '<a href="'. esc_url($item->url) .'"
+                         class="text-xl font-bold">'. esc_html($item->title) .'</a>';
+
             if ($has_children) {
-                // Parent item (like "Services")
-                $output .= '<div class="grid accordionGrid">';
-                $output .= '<a href="' . esc_attr($item->url) . '" class="uppercase">';
-                $output .= '<div class="accordionTitle mt-4">' . esc_html($item->title) . '</div>';
-                $output .= '</a>';
-            } else {
-                // Regular top-level menu items (like "Home", "About Us")
-                $output .= '<a href="' . esc_attr($item->url) . '" class="mt-4 uppercase block">' . esc_html($item->title) . '</a>';
+                $output .= '
+                <button type="button" class="mobile-submenu-toggle p-2">
+                    ▶
+                </button>';
             }
+
+            $output .= '</div>';
+
         } else {
-            // Submenu items (Service 1, Service 1.1, Service 1.2)
-            if ($depth == 1) {
-                $output .= '<li class="flex gap-4 content-center items-center">';
-                $output .= '<a href="' . esc_attr($item->url) . '" class="text-black text-2xl hover:text-white transition-colors duration-400 ease-in-out">';
-            } else {
-                $output .= '<li>';
-                $output .= '<a href="' . esc_attr($item->url) . '" class="text-lg transition-colors duration-400 ease-in-out">';
-            }
-            $output .= esc_html($item->title) . '</a>';
+
+            $output .= '<a href="'. esc_url($item->url) .'"
+                         class="block py-2 text-sm text-gray-600">'
+                         . esc_html($item->title) .'</a>';
         }
     }
 
-    // End Each Menu Item
-    function end_el( &$output, $item, $depth = 0, $args = null ) {
-        if ($depth !== 0) {
-            $output .= '</li>';
-        }
-        if ($depth === 0 && !empty($args->walker->has_children)) {
-            $output .= '</div>'; // Close accordionGrid for "Services"
+    public function end_el(&$output, $item, $depth = 0, $args = []) {
+        if ($depth === 0) {
+            $output .= '</div>';
         }
     }
 }
-?>

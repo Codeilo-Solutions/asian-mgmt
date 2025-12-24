@@ -1,60 +1,46 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function($){
 
-    
-
-});
-jQuery(document).ready(function($) {
-
-    function setEqualHeightAll(selector) {
+    // Equal height for cards
+    function setEqualHeightAll(selector){
         var maxHeight = 0;
-        $(selector).css('height', 'auto'); // reset first
-        $(selector).each(function() {
+        $(selector).css('height','auto');
+        $(selector).each(function(){
             var h = $(this).outerHeight();
-            if (h > maxHeight) maxHeight = h;
+            if(h > maxHeight) maxHeight = h;
         });
         $(selector).css('height', maxHeight + 'px');
     }
 
-    function applyEqualHeightAll() {
+    function applyEqualHeightAll(){
         var images = $('#post-container img');
         var total = images.length;
         var loaded = 0;
 
-        if (total === 0) {
-            setEqualHeightAll('#post-container > div > .group');
+        if(total === 0){
+            setEqualHeightAll('#post-container > div > .reveal');
             return;
         }
 
-        images.each(function() {
-            if (this.complete) {
-                loaded++;
-            } else {
-                $(this).on('load', function() {
-                    loaded++;
-                    if (loaded === total) setEqualHeightAll('#post-container > div > .group');
-                });
-            }
+        images.each(function(){
+            if(this.complete) loaded++;
+            else $(this).on('load', function(){ 
+                loaded++; 
+                if(loaded === total) setEqualHeightAll('#post-container > div > .reveal'); 
+            });
         });
 
-        if (loaded === total) {
-            setEqualHeightAll('#post-container > div > .group');
-        }
+        if(loaded === total) setEqualHeightAll('#post-container > div > .reveal');
     }
 
-    // Apply on initial page load
     applyEqualHeightAll();
 
-    // Reapply on window resize
-    var resizeTimer;
-    $(window).on('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
-            applyEqualHeightAll();
-        }, 200);
+    $(window).on('resize', function(){
+        setTimeout(function(){ applyEqualHeightAll(); }, 200);
     });
-$('#load-more').on('click', function(e){
-        e.preventDefault();
 
+    // Load More Button
+    $('#load-more').on('click', function(e){
+        e.preventDefault();
         var button = $(this);
         var page = parseInt(button.attr('data-page')) + 1;
         var maxPage = parseInt(button.attr('data-max'));
@@ -62,63 +48,21 @@ $('#load-more').on('click', function(e){
         $.ajax({
             url: INSIGHTS_AJAX.ajax_url,
             type: 'POST',
-            data: {
-                action: 'load_more_insights',
-                page: page,
-            },
-            beforeSend: function() {
-                button.text('Loading...');
-            },
-            success: function(response) {
-                if(response.success){
-                    $('#post-container').append(response.data); // Append new posts
-                    button.text('Load More');
-                    button.attr('data-page', page);
-                    applyEqualHeightAll(); // Reapply equal height
-                    if(page >= maxPage){
-                        button.hide(); // Hide button if last page
-                    }
+            data: { action:'load_more_insights', page: page },
+            beforeSend: function(){ button.text('Loading...'); },
+            success: function(response){
+                console.log('AJAX Response:', response);
+                if(response.success && response.data.trim() !== ''){
+                    $('#post-container').append(response.data);
+                    button.attr('data-page', page).text('Load More');
+                    applyEqualHeightAll();
+                    if(page >= maxPage) button.hide();
                 } else {
-                    button.text('No more posts');
+                    button.text('No more posts').hide();
                 }
             },
-            error: function() {
-                button.text('Error, try again');
-            }
+            error: function(){ button.text('Error, try again'); }
         });
-
     });
-    // AJAX Load More
-    // $('#load-more').on('click', function() {
-    //     var button = $(this);
-    //     var page = parseInt(button.attr('data-page')) + 1;
-    //     var max = parseInt(button.attr('data-max'));
 
-    //     $.ajax({
-    //         url: INSIGHTS_AJAX.ajax_url,
-    //         type: 'POST',
-    //         data: {
-    //             action: 'load_more_insights',
-    //             page: page
-    //         },
-    //         success: function(response) {
-    //             if (response.success) {
-    //                 $('#post-container').append(response.data);
-                    
-    //                 // Update page
-    //                 button.attr('data-page', page);
-
-    //                 // Reapply equal height after AJAX
-    //                 applyEqualHeightAll();
-
-    //                 // Hide button if last page
-    //                 if (page >= max) {
-    //                     button.hide();
-    //                 }
-    //             } else {
-    //                 button.hide();
-    //             }
-    //         }
-    //     });
-    // });
 });

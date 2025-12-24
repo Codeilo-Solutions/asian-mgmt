@@ -1,17 +1,13 @@
 <?php
-
 class bs4navwalker extends Walker_Nav_Menu {
 
-    // Start Level (Submenu)
+    // Start Level (submenu)
     public function start_lvl(&$output, $depth = 0, $args = array()) {
         $indent = str_repeat("\t", $depth);
-        if ($depth === 0) {
-            // Top-level dropdown
-            $output .= "\n$indent<ul class=\"absolute left-0 top-full bg-white shadow-lg w-56 py-3 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-out border border-gray-200 list-none\">\n";
-        } else {
-            // Nested dropdown
-            $output .= "\n$indent<ul class=\"absolute left-full top-0 bg-white shadow-lg w-48 py-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 ease-out border border-gray-200 list-none\">\n";
-        }
+        $classes = ($depth === 0) 
+            ? 'absolute left-0 top-full bg-white shadow-2xl border border-gray-100 py-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 list-none'
+            : 'absolute left-full top-0 bg-white shadow-lg w-48 py-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 border border-gray-200 list-none';
+        $output .= "\n$indent<ul class=\"$classes\">\n";
     }
 
     // End Level
@@ -27,13 +23,12 @@ class bs4navwalker extends Walker_Nav_Menu {
         $classes[] = 'menu-item-' . $item->ID;
 
         $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args, $depth));
-
-        if ($depth === 0) $class_names .= ' relative group list-none'; // Top-level menu item
-        else $class_names .= ' list-none'; // Submenu item
+        $class_names .= ($depth === 0) ? ' relative group list-none' : ' list-none';
         $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+
         $id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args, $depth);
         $id = $id ? ' id="' . esc_attr($id) . '"' : '';
-        
+
         $output .= $indent . '<li' . $id . $class_names . '>';
 
         // Link attributes
@@ -41,24 +36,16 @@ class bs4navwalker extends Walker_Nav_Menu {
         $atts['title']  = !empty($item->attr_title) ? $item->attr_title : '';
         $atts['target'] = !empty($item->target) ? $item->target : '';
         $atts['rel']    = !empty($item->xfn) ? $item->xfn : '';
-        $atts['href']   = !empty($item->url) ? $item->url : '';
+        $atts['href']   = !empty($item->url) ? $item->url : '#';
 
-        // Desktop Classes
         if ($depth === 0) {
-            $atts['class'] = 'hover:text-[#C41E3A] transition flex items-center group text-[11px] font-bold uppercase tracking-[0.15em]';
-
+            $atts['class'] = 'hover:text-black transition flex items-center group text-[11px] font-bold uppercase tracking-[0.15em]';
             if (in_array('menu-item-has-children', $classes)) {
                 $atts['class'] .= ' flex items-center justify-between';
                 $item->title .= ' <span class="ml-1.5 text-[8px]">▼</span>';
             }
         } else {
-            // Dropdown submenu items
-            $atts['class'] = 'block px-4 py-2 text-sm text-gray-800 hover:text-[#C41E3A] hover:bg-gray-50 transition-all duration-300';
-        }
-
-        // Contact button (top-level special)
-        if (strtolower($item->title) === 'contact') {
-            $atts['class'] = 'flex items-center justify-center space-x-3 bg-[#C41E3A] text-white px-6 py-4 sm:px-8 sm:py-5 rounded-none hover:bg-black transition-all duration-300 shadow-xl hover:shadow-2xl group text-[11px] font-bold uppercase tracking-[0.2em]';
+            $atts['class'] = 'block px-6 py-3 text-sm text-gray-700 hover:text-black transition-all duration-300';
         }
 
         $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args, $depth);
@@ -86,5 +73,3 @@ class bs4navwalker extends Walker_Nav_Menu {
     }
 }
 ?>
-
-
