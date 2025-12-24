@@ -52,7 +52,7 @@ $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 
         <!-- Contact + Mobile Toggle -->
         <div class="flex items-center h-full">
-                <button class="hidden sm:flex bg-black text-white h-full px-8 items-center space-x-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-colors duration-300">
+                <button class="hidden sm:flex bg-[#C41E3A] text-white h-full px-8 items-center space-x-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-black transition-colors duration-300">
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
                     <a href="/contact-us" >Contact</a>
                 </button>
@@ -70,7 +70,7 @@ $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 
  <!-- Contact Overlay for Desktop/Laptop Hamburger -->
     <div class="overlay-backdrop" id="overlay-backdrop"></div>
-    <div id="contact-overlay">
+    <div id="contact-overlay" class="hidden">
         <div class="flex justify-between items-center p-6 border-b border-gray-200">
             <img src="<?php echo esc_url($logo[0]); ?>" alt="Asia Management" class="h-12 w-auto" />
             <button id="overlay-close" class="p-2 hover:bg-gray-100 rounded transition-colors">
@@ -179,7 +179,7 @@ $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
         </nav>
 
          <div class="mb-6 sm:mb-8">
-                <a href="/contact-us" class="flex items-center justify-center space-x-3 bg-black text-white px-6 sm:px-8 py-4 sm:py-5 rounded-none hover:bg-black transition-all duration-300 shadow-xl hover:shadow-2xl group">
+                <a href="/contact-us" class="flex items-center justify-center space-x-3 bg-[#C41E3A] text-white px-6 sm:px-8 py-4 sm:py-5 rounded-none hover:bg-black transition-all duration-300 shadow-xl hover:shadow-2xl group">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
                     </svg>
@@ -243,29 +243,38 @@ $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.getElementById('menu-toggle');
-        const menuClose = document.getElementById('menu-close');
-        const mobileMenu = document.getElementById('mobile-menu');
+   document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuClose = document.getElementById('menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-        const contactBtn = document.getElementById('desktop-contact-btn');
-        const contactOverlay = document.getElementById('contact-overlay');
-        const overlayClose = document.getElementById('overlay-close');
+    const contactBtn = document.getElementById('desktop-contact-btn');
+    const contactOverlay = document.getElementById('contact-overlay');
+    const overlayClose = document.getElementById('overlay-close');
 
-        // Mobile menu toggle
+    // Mobile menu toggle
+    if(menuToggle && mobileMenu) {
         menuToggle.addEventListener('click', () => mobileMenu.classList.remove('hidden'));
+    }
+    if(menuClose && mobileMenu) {
         menuClose.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    }
 
-        // Mobile dropdown toggle
-        document.querySelectorAll('.mobile-dropdown-toggle').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const content = btn.nextElementSibling;
-                if (content) content.classList.toggle('hidden');
-            });
+    // Mobile dropdown toggle
+    document.querySelectorAll('.mobile-dropdown-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const content = btn.nextElementSibling;
+            if (content) content.classList.toggle('hidden');
         });
-
-        // Desktop contact overlay
-        contactBtn.addEventListener('click', () => contactOverlay.classList.remove('hidden'));
-        overlayClose.addEventListener('click', () => contactOverlay.classList.add('hidden'));
     });
+
+    // Desktop contact overlay
+    if(contactBtn && contactOverlay) {
+        contactBtn.addEventListener('click', () => contactOverlay.classList.toggle('hidden'));
+    }
+    if(overlayClose && contactOverlay) {
+        overlayClose.addEventListener('click', () => contactOverlay.classList.add('hidden'));
+    }
+});
+
 </script>

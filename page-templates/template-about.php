@@ -99,7 +99,7 @@ $rows = array_chunk($teams, 4);
             <div class="reveal <?php echo $mt_class; ?>">
                 <div class="aspect-[3/4] <?php echo $bg_class; ?> overflow-hidden mb-4">
                     <img src="<?php echo esc_url($team['image']); ?>" 
-                         class="w-full h-full object-cover <?php echo ($i==0) ? 'opacity-80 grayscale' : ''; ?>" 
+                         class="w-full h-full object-cover <?php echo ($i==0) ? '' : ''; ?>" 
                          alt="<?php echo esc_attr($team['name']); ?>" />
                 </div>
                 <h3 class="font-bold text-gray-900 text-sm md:text-base"><?php echo esc_html($team['name']); ?></h3>

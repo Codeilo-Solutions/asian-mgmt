@@ -65,7 +65,7 @@ get_header();
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div class="space-y-3">
-                    <p class="text-sm text-gray-500 font-light"><?php echo get_the_date('F d, Y'); ?></p>
+                    <p class="text-sm text-gray-500 font-light"><?php echo get_the_date('d/m/Y'); ?></p>
                     <h3 class="text-2xl font-bold text-gray-900 group-hover:text-[#C41E3A] transition-colors"><?php the_title(); ?></h3>
                     <p class="text-gray-600 leading-relaxed line-clamp-2"><?php echo get_the_excerpt(); ?></p>
                 </div>

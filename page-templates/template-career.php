@@ -44,5 +44,90 @@ get_header();
         </div>
     </div>
 </section>
+<style>
+/* Inputs and textarea */
+.form-input, .form-textarea, .form-file {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
 
+.form-input:focus, .form-textarea:focus, .form-file:focus {
+    border-color: #C41E3A;
+    box-shadow: 0 0 0 1px #C41E3A;
+}
+
+.form-textarea {
+    resize: none;
+    min-height: 120px;
+}
+
+.form-submit {
+    background-color: #C41E3A;
+    color: #fff;
+    padding: 14px 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-submit:hover {
+    background-color: #000;
+}
+
+/* File input custom style */
+.wpcf7 input[type=file].form-file {
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.wpcf7 input[type=file].form-file + span {
+    display: block;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.wpcf7 input[type=file].form-file:focus + span,
+.wpcf7 input[type=file].form-file:hover + span {
+    border-color: #C41E3A;
+    color: #C41E3A;
+}
+.wpcf7-not-valid{
+    border-bottom-color: #C41E3A !important; /* Tailwind red-600 */
+}
+.wpcf7-not-valid-tip{
+    display: none;
+  }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.querySelector('#resume-upload');
+    const label = document.querySelector('#resume-file-name');
+
+    input.addEventListener('change', function() {
+        if(this.files && this.files.length > 0){
+            label.textContent = this.files[0].name;
+        } else {
+            label.textContent = 'Choose File';
+        }
+    });
+});
+</script>
 <?php get_footer(); ?>
