@@ -1,48 +1,48 @@
 <?php
 /**
- * Template Name: Career Layout
+ * Template Name: Career Dynamic Form
  */
 get_header();
 ?>
-<div class="career w-full" style="background-image: url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>);">
-    <?php
 
-    /**
-     * asiamanagement_header_content hook
-     *
-     * @hooked asiamanagement_output_header_content()
-     *
-     */
-    do_action( 'asiamanagement_header_content' );
-
-?>
-<?php
-
-get_template_part('template-parts/common/banner');
-?>
-</div>
- <!-- Hero Section -->
-  <section class="bg-[--hading-color] text-white max-w-5xl  py-10 latoRegular">
-    <div class=" text-center px-10">
-      <h1 class="text-[28px] md:text-[36px] mb-4"><?php echo get_field('section_1_title');?></h1>
-      <p class="text-[16px] md:text-[18px]"><?php echo get_field('section_1_description');?></p>
+<!-- Hero Section -->
+<section class="relative h-[60vh] md:h-[70vh] flex items-center justify-center text-white overflow-hidden" 
+    style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>');">
+    <div class="absolute inset-0 z-0">
+        <img src="<?php echo get_template_directory_uri(); ?>/photos/asia mng.png" alt="Career Hero" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent"></div>
     </div>
-  </section>
+</section>
 
-
-  <!-- Apply Form -->
-  <div class="w-full sm:w-[70%] md:ml-48 bg-gray-100">
-
-    <div class="w-[95%] sm:w-10/12 md:w-8/12 mx-auto mt-12 p-6 relative sm:right-0">
-
-      <h1 class="text-[24px] sm:text-[30px] latoRegular">
-        Apply Now
-      </h1>
-
-
-    <?php echo do_shortcode('[contact-form-7 id="e5124f7" title="Career"]'); ?>
-
+<!-- Join Our Team Section -->
+<section>
+    <div class="max-w-7xl bg-[#C41E3A] py-16 px-6 md:px-12 lg:px-24">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+            <?php echo esc_html(get_field('section_1_title')); ?>
+        </h2>
+        <p class="text-white text-lg font-light">
+            <?php echo nl2br(esc_html(get_field('section_1_description'))); ?>
+        </p>
     </div>
-  </div>
+</section>
+
+<!-- Apply Form Section -->
+<section class="bg-gray-50 py-20 px-6 md:px-12 lg:px-24">
+    <div class="max-w-7xl mx-auto">
+        <div class="bg-white p-8 md:p-12 shadow-lg">
+
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-10">
+                <?php echo esc_html(get_field('form_title') ? get_field('form_title') : 'Apply Now'); ?>
+            </h2>
+<div class="space-y-6 latoRegular mt-10">
+
+            <!-- CF7 Form Start -->
+            <?php echo do_shortcode('[contact-form-7 id="e5124f7" title="Career"]'); ?>
+            <!-- CF7 Form End -->
+             </div>
+
+        </div>
+    </div>
+</section>
 
 <?php get_footer(); ?>
